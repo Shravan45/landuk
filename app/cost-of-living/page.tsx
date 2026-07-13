@@ -47,18 +47,18 @@ export default function CostOfLivingPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
       <h1 className="text-2xl font-bold">Cost of living calculator</h1>
-      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+      <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
         Estimate a monthly budget using indicative figures scaled to each
         area&rsquo;s relative cost index.
       </p>
 
-      <div className="mt-6 grid gap-5 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:grid-cols-2">
+      <div className="mt-6 grid gap-5 rounded-2xl border border-stone-200 dark:border-stone-800 p-6 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label className="text-sm font-medium">Neighbourhood</label>
           <select
             value={neighbourhoodId}
             onChange={(e) => setNeighbourhoodId(e.target.value)}
-            className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 text-sm"
+            className="mt-2 w-full rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent px-3 py-2 text-sm focus:border-stone-900 dark:focus:border-stone-100 focus:outline-none"
           >
             {neighbourhoods.map((n) => (
               <option key={n.id} value={n.id}>
@@ -73,7 +73,7 @@ export default function CostOfLivingPage() {
           <select
             value={bedrooms}
             onChange={(e) => setBedrooms(Number(e.target.value) as 1 | 2 | 3)}
-            className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 text-sm"
+            className="mt-2 w-full rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent px-3 py-2 text-sm focus:border-stone-900 dark:focus:border-stone-100 focus:outline-none"
           >
             <option value={1}>1 bedroom</option>
             <option value={2}>2 bedrooms</option>
@@ -86,7 +86,7 @@ export default function CostOfLivingPage() {
           <select
             value={councilTaxBand}
             onChange={(e) => setCouncilTaxBand(e.target.value as CouncilTaxBand)}
-            className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 text-sm"
+            className="mt-2 w-full rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent px-3 py-2 text-sm focus:border-stone-900 dark:focus:border-stone-100 focus:outline-none"
           >
             {BANDS.map((b) => (
               <option key={b} value={b}>
@@ -107,7 +107,7 @@ export default function CostOfLivingPage() {
             step={1}
             value={adultsInHousehold}
             onChange={(e) => setAdultsInHousehold(Number(e.target.value))}
-            className="mt-2 w-full accent-indigo-600"
+            className="mt-2 w-full accent-stone-900 dark:accent-stone-100"
           />
         </div>
 
@@ -115,7 +115,7 @@ export default function CostOfLivingPage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-500 disabled:opacity-50 transition-colors"
+            className="rounded-lg bg-stone-900 px-5 py-3 text-sm font-semibold text-white hover:bg-stone-700 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-300 transition-colors"
           >
             {loading ? "Calculating…" : "Calculate"}
           </button>
@@ -123,14 +123,14 @@ export default function CostOfLivingPage() {
       </div>
 
       {breakdown && (
-        <div className="mt-8 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
+        <div className="mt-8 rounded-2xl border border-stone-200 dark:border-stone-800 p-6">
           <h2 className="font-semibold text-lg">
             {breakdown.neighbourhood.name}, {breakdown.neighbourhood.city}
           </h2>
-          <div className="mt-4 divide-y divide-slate-200 dark:divide-slate-800">
+          <div className="mt-4 divide-y divide-stone-200 dark:divide-stone-800">
             {ROWS.map((row) => (
               <div key={row.key} className="flex justify-between py-2 text-sm">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-stone-600 dark:text-stone-400">
                   {row.label}
                 </span>
                 <span className="font-medium">
@@ -139,16 +139,16 @@ export default function CostOfLivingPage() {
               </div>
             ))}
           </div>
-          <div className="mt-3 flex justify-between border-t border-slate-300 dark:border-slate-700 pt-3">
+          <div className="mt-3 flex justify-between border-t border-stone-300 dark:border-stone-700 pt-3">
             <span className="font-semibold">Total household</span>
             <span className="font-bold text-lg">£{breakdown.total}/mo</span>
           </div>
-          <div className="flex justify-between text-sm text-slate-500">
+          <div className="flex justify-between text-sm text-stone-500">
             <span>Per adult</span>
             <span>£{breakdown.perAdult}/mo</span>
           </div>
-          <p className="mt-4 text-xs text-slate-500">
-            Figures are indicative estimates for planning purposes — verify
+          <p className="mt-4 text-xs text-stone-500">
+            Figures are indicative estimates for planning purposes, so verify
             current rates against ONS and gov.uk before budgeting precisely.
           </p>
         </div>

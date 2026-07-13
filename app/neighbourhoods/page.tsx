@@ -51,12 +51,12 @@ export default function NeighbourhoodsPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
       <h1 className="text-2xl font-bold">Neighbourhood matcher</h1>
-      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+      <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
         Set your priorities and we&rsquo;ll rank UK areas from our curated dataset
         that fit best.
       </p>
 
-      <div className="mt-6 grid gap-6 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:grid-cols-2">
+      <div className="mt-6 grid gap-6 rounded-2xl border border-stone-200 dark:border-stone-800 p-6 sm:grid-cols-2">
         <div>
           <label className="text-sm font-medium">
             Max monthly rent (1-bed equivalent): £{maxBudget}
@@ -68,7 +68,7 @@ export default function NeighbourhoodsPage() {
             step={50}
             value={maxBudget}
             onChange={(e) => setMaxBudget(Number(e.target.value))}
-            className="mt-2 w-full accent-indigo-600"
+            className="mt-2 w-full accent-stone-900 dark:accent-stone-100"
           />
         </div>
 
@@ -83,7 +83,7 @@ export default function NeighbourhoodsPage() {
             step={5}
             value={maxCommuteMins}
             onChange={(e) => setMaxCommuteMins(Number(e.target.value))}
-            className="mt-2 w-full accent-indigo-600"
+            className="mt-2 w-full accent-stone-900 dark:accent-stone-100"
           />
         </div>
 
@@ -92,7 +92,7 @@ export default function NeighbourhoodsPage() {
           <select
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 text-sm"
+            className="mt-2 w-full rounded-lg border border-stone-300 dark:border-stone-700 bg-transparent px-3 py-2 text-sm focus:border-stone-900 dark:focus:border-stone-100 focus:outline-none"
           >
             <option value="any">Any city</option>
             {cities.map((c) => (
@@ -113,8 +113,8 @@ export default function NeighbourhoodsPage() {
                 onClick={() => toggleTag(tag)}
                 className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
                   selectedTags.includes(tag)
-                    ? "border-indigo-600 bg-indigo-600 text-white"
-                    : "border-slate-300 dark:border-slate-700 hover:border-indigo-400"
+                    ? "border-stone-900 bg-stone-900 text-white dark:border-stone-100 dark:bg-stone-100 dark:text-stone-900"
+                    : "border-stone-300 dark:border-stone-700 hover:border-stone-500 dark:hover:border-stone-500"
                 }`}
               >
                 {tag.replace(/-/g, " ")}
@@ -127,7 +127,7 @@ export default function NeighbourhoodsPage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-500 disabled:opacity-50 transition-colors"
+            className="rounded-lg bg-stone-900 px-5 py-3 text-sm font-semibold text-white hover:bg-stone-700 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-300 transition-colors"
           >
             {loading ? "Matching…" : "Find neighbourhoods"}
           </button>
@@ -137,30 +137,30 @@ export default function NeighbourhoodsPage() {
       {matches && (
         <div className="mt-8 space-y-4">
           {matches.length === 0 && (
-            <p className="text-sm text-slate-500">No matches found — try relaxing your filters.</p>
+            <p className="text-sm text-stone-500">No matches found, try relaxing your filters.</p>
           )}
           {matches.map((m) => (
             <div
               key={m.id}
-              className="rounded-2xl border border-slate-200 dark:border-slate-800 p-5"
+              className="rounded-2xl border border-stone-200 dark:border-stone-800 p-5"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="font-semibold text-lg">
                     {m.name}
-                    <span className="ml-2 text-sm font-normal text-slate-500">
+                    <span className="ml-2 text-sm font-normal text-stone-500">
                       {m.city}
                     </span>
                   </h3>
-                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                  <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
                     {m.description}
                   </p>
                 </div>
-                <div className="shrink-0 rounded-full bg-indigo-50 dark:bg-indigo-950 px-3 py-1 text-sm font-semibold text-indigo-600 dark:text-indigo-400">
+                <div className="shrink-0 rounded-full bg-stone-900 px-3 py-1 text-sm font-semibold text-white dark:bg-stone-100 dark:text-stone-900">
                   {m.score}% match
                 </div>
               </div>
-              <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-slate-500">
+              <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-stone-500">
                 <span>~£{m.avgRent1Bed}/mo (1-bed)</span>
                 <span>·</span>
                 <span>{m.commuteToCentreMins} min commute</span>

@@ -85,7 +85,7 @@
     "costIndex": 55,
     "commuteToCentreMins": 10,
     "tags": ["nightlife", "creative", "tech-hub", "young-professionals"],
-    "description": "Manchester's creative and indie scene — record shops, bars, and a growing tech and media crowd."
+    "description": "Manchester's creative and indie scene: record shops, bars, and a growing tech and media crowd."
   },
   {
     "id": "didsbury",
@@ -118,7 +118,7 @@
     "costIndex": 45,
     "commuteToCentreMins": 10,
     "tags": ["creative", "nightlife", "tech-hub", "affordable"],
-    "description": "Birmingham's creative quarter — converted warehouses, street art, and a fast-growing tech and startup scene."
+    "description": "Birmingham's creative quarter: converted warehouses, street art, and a fast-growing tech and startup scene."
   },
   {
     "id": "birmingham-edgbaston",

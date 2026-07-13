@@ -33,18 +33,16 @@ exercised with real API calls:
   `/api/chat`, `/api/neighbourhoods`, `/api/cost-of-living` all tested with
   real requests post-deploy. `GEMINI_API_KEY`, `SUPABASE_URL`,
   `SUPABASE_SERVICE_ROLE_KEY` are set on both the Production and Preview
-  environments in Vercel (`vercel env ls` to check). Deploys are currently
-  **manual** (`vercel --prod` from this machine) — the CLI's attempt to
-  auto-connect the GitHub repo for deploy-on-push failed ("Failed to connect
-  Shravan45/landuk to project") and was never followed up. If you want
-  deploy-on-push, that needs the Vercel GitHub App authorized from the
-  Vercel dashboard (Project Settings → Git), not the CLI.
+  environments in Vercel (`vercel env ls` to check). **Deploy-on-push is
+  connected** — the GitHub repo `Shravan45/landuk` is linked to the Vercel
+  project (Vercel GitHub App authorized, then `vercel git connect`), so a
+  push to `main` triggers a production deploy automatically. No manual
+  `vercel --prod` needed for normal changes; only use it if you need to
+  force a redeploy without a new commit.
 - `.vercel/` exists locally (project link config) — gitignored, machine-local,
   fine to regenerate with `vercel link` if missing.
 
 **Not yet done:**
-- Deploy-on-push isn't wired up (see above) — every deploy is a manual
-  `vercel --prod` from whichever machine has the CLI linked.
 - No tests.
 - No auth/rate-limiting on the API routes — this now matters more than it
   did pre-deployment, since the app has a real public URL
@@ -184,9 +182,6 @@ project's own files.
 ## Ideas for what's next (not decided — ask the user before building)
 
 Untriaged possibilities, not a committed roadmap:
-- Wire up deploy-on-push (Vercel dashboard → Project Settings → Git →
-  authorize the GitHub App for `Shravan45/landuk`) so pushes to `main`
-  auto-deploy instead of requiring manual `vercel --prod`.
 - Rate-limit `/api/chat` — now higher priority since the app has a live
   public URL (`landuk.vercel.app`) with a real Gemini key behind it.
 - Expand `data/sources/` — more visa routes (family visas, Ancestry visa,
@@ -210,8 +205,7 @@ Untriaged possibilities, not a committed roadmap:
    locally, or just check `https://landuk.vercel.app` directly — it's live.
    Supabase free tier projects can pause after inactivity, so if `/api/chat`
    500s, check the Supabase dashboard first before assuming code broke.
-3. If you make changes and want them live, remember deploys are **manual**:
-   `vercel --prod` from a machine with the project linked (`.vercel/` present,
-   or re-run `vercel link`). Pushing to GitHub alone does *not* deploy.
+3. Deploy-on-push is connected — a push to `main` deploys automatically.
+   `vercel --prod` is only for forcing a redeploy without a new commit.
 4. Read `README.md` for the human-facing setup instructions (this file is
    the agent-facing "why" companion to that).
