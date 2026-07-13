@@ -25,18 +25,33 @@ exercised with real API calls:
   chunks ingested from the 7 markdown files in `data/sources/`.
 - `.env.local` has real working Gemini + Supabase credentials (gitignored,
   never commit it).
+- Committed and pushed to GitHub: `https://github.com/Shravan45/landuk`
+  (commit `cf677fd "builds mvp"`, on top of the original scaffold commit).
+- **Deployed to Vercel, live in production**: `https://landuk.vercel.app`
+  (Vercel project `brewed-entropy/landuk`). All three routes verified live
+  against production against real Gemini + Supabase, not just built —
+  `/api/chat`, `/api/neighbourhoods`, `/api/cost-of-living` all tested with
+  real requests post-deploy. `GEMINI_API_KEY`, `SUPABASE_URL`,
+  `SUPABASE_SERVICE_ROLE_KEY` are set on both the Production and Preview
+  environments in Vercel (`vercel env ls` to check). Deploys are currently
+  **manual** (`vercel --prod` from this machine) — the CLI's attempt to
+  auto-connect the GitHub repo for deploy-on-push failed ("Failed to connect
+  Shravan45/landuk to project") and was never followed up. If you want
+  deploy-on-push, that needs the Vercel GitHub App authorized from the
+  Vercel dashboard (Project Settings → Git), not the CLI.
+- `.vercel/` exists locally (project link config) — gitignored, machine-local,
+  fine to regenerate with `vercel link` if missing.
 
 **Not yet done:**
-- **Nothing has been committed to git.** The repo is still sitting on the
-  original `create-next-app` scaffold commit (`28178af`). This entire build
-  — every file under `app/`, `lib/`, `data/`, `scripts/`, `supabase/`,
-  `types/` — is uncommitted working tree changes. Check `git status` /
-  `git diff` before assuming any of this is safe on disk in git history.
-- No deployment (not on Vercel or anywhere else yet).
+- Deploy-on-push isn't wired up (see above) — every deploy is a manual
+  `vercel --prod` from whichever machine has the CLI linked.
 - No tests.
-- No auth/rate-limiting on the API routes (fine for a portfolio demo behind
-  no traffic, not fine if this ever gets a real URL shared publicly with an
-  unmetered Gemini key attached).
+- No auth/rate-limiting on the API routes — this now matters more than it
+  did pre-deployment, since the app has a real public URL
+  (`landuk.vercel.app`) with a live Gemini key attached. Nothing currently
+  stops someone from hammering `/api/chat` and burning through the Gemini
+  free tier or Supabase usage.
+- Custom domain not set up (still on the default `*.vercel.app` URL).
 
 ## Tech stack & why
 
@@ -169,31 +184,34 @@ project's own files.
 ## Ideas for what's next (not decided — ask the user before building)
 
 Untriaged possibilities, not a committed roadmap:
-- Deploy to Vercel (needs env vars configured there too; Supabase + Gemini
-  both work fine from serverless).
+- Wire up deploy-on-push (Vercel dashboard → Project Settings → Git →
+  authorize the GitHub App for `Shravan45/landuk`) so pushes to `main`
+  auto-deploy instead of requiring manual `vercel --prod`.
+- Rate-limit `/api/chat` — now higher priority since the app has a live
+  public URL (`landuk.vercel.app`) with a real Gemini key behind it.
 - Expand `data/sources/` — more visa routes (family visas, Ancestry visa,
   Innovator Founder), more neighbourhoods, or region-specific cost data
   (Scotland/Wales/NI have different Council Tax and rates systems).
-- Rate-limit `/api/chat` before ever making the URL public (currently
-  nothing stops someone from burning through the Gemini free tier or racking
-  up Supabase usage).
 - Streaming responses in the chat UI instead of waiting for the full answer
   (currently a single non-streamed `generateContent` call — noticeably slow,
   ~10–25s per query in testing).
 - Persist chat history (currently in-memory React state only, lost on
   refresh).
+- Custom domain instead of the default `*.vercel.app` URL.
 - Tests — there are none. If added, the deterministic modules
   (`lib/neighbourhoods.ts`, `lib/cost-of-living.ts`) are the easy/valuable
   ones to start with since they need no mocking.
 
 ## First things to do in a new session
 
-1. `git status` — confirm what's committed vs not (see "not yet done"
-   above). Probably worth committing the working build before anything else,
-   if the user wants that.
-2. `npm run dev` and hit `/chat`, `/neighbourhoods`, `/cost-of-living` to
-   confirm everything still works (Supabase free tier projects can pause
-   after inactivity — if `/api/chat` 500s, check the Supabase dashboard
-   first before assuming code broke).
-3. Read `README.md` for the human-facing setup instructions (this file is
+1. `git status` — confirm the working tree is clean and matches what's
+   pushed to `github.com/Shravan45/landuk` before assuming anything.
+2. `npm run dev` and hit `/chat`, `/neighbourhoods`, `/cost-of-living`
+   locally, or just check `https://landuk.vercel.app` directly — it's live.
+   Supabase free tier projects can pause after inactivity, so if `/api/chat`
+   500s, check the Supabase dashboard first before assuming code broke.
+3. If you make changes and want them live, remember deploys are **manual**:
+   `vercel --prod` from a machine with the project linked (`.vercel/` present,
+   or re-run `vercel link`). Pushing to GitHub alone does *not* deploy.
+4. Read `README.md` for the human-facing setup instructions (this file is
    the agent-facing "why" companion to that).
