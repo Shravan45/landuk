@@ -1,8 +1,8 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import type { Citation } from "@/types/rag";
+import type { ChatStreamEvent, Citation } from "@/types/rag";
 
 interface Message {
   role: "user" | "assistant";
@@ -18,15 +18,32 @@ const SUGGESTIONS = [
   "How long can I stay on the Youth Mobility Scheme?",
 ];
 
+function updateLastMessage(updater: (last: Message) => Message) {
+  return (prev: Message[]) => {
+    const next = [...prev];
+    next[next.length - 1] = updater(next[next.length - 1]);
+    return next;
+  };
+}
+
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ block: "end" });
+  }, [messages]);
 
   async function sendMessage(query: string) {
     if (!query.trim() || loading) return;
 
-    setMessages((prev) => [...prev, { role: "user", content: query }]);
+    setMessages((prev) => [
+      ...prev,
+      { role: "user", content: query },
+      { role: "assistant", content: "" },
+    ]);
     setInput("");
     setLoading(true);
 
@@ -37,25 +54,48 @@ export default function ChatPage() {
         body: JSON.stringify({ query }),
       });
 
-      if (!res.ok) {
+      if (!res.ok || !res.body) {
         throw new Error("Request failed");
       }
 
-      const data = await res.json();
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: data.answer, citations: data.citations },
-      ]);
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? ""; // last entry may be a partial line — hold it for the next chunk
+
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          const event = JSON.parse(line) as ChatStreamEvent;
+
+          if (event.type === "citations") {
+            setMessages(updateLastMessage((last) => ({ ...last, citations: event.citations })));
+          } else if (event.type === "text") {
+            setMessages(
+              updateLastMessage((last) => ({ ...last, content: last.content + event.delta }))
+            );
+          } else if (event.type === "error") {
+            setMessages(
+              updateLastMessage(() => ({ role: "assistant", content: event.message, error: true }))
+            );
+          }
+        }
+      }
     } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
+      setMessages(
+        updateLastMessage(() => ({
           role: "assistant",
           content:
             "Something went wrong answering that. Check that GEMINI_API_KEY and Supabase env vars are set, and that you've run `npm run ingest`.",
           error: true,
-        },
-      ]);
+        }))
+      );
     } finally {
       setLoading(false);
     }
@@ -89,49 +129,57 @@ export default function ChatPage() {
           </div>
         )}
 
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={
-              msg.role === "user"
-                ? "ml-auto max-w-[85%] rounded-2xl rounded-tr-sm bg-stone-900 px-4 py-3 text-sm text-white dark:bg-stone-100 dark:text-stone-900"
-                : `mr-auto max-w-[85%] rounded-2xl rounded-tl-sm px-4 py-3 text-sm ${
-                    msg.error
-                      ? "bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300"
-                      : "bg-stone-100 text-stone-900 dark:bg-stone-900 dark:text-stone-100"
-                  }`
-            }
-          >
-            {msg.role === "assistant" ? (
-              <div className="prose prose-sm prose-stone dark:prose-invert max-w-none prose-p:my-1.5 prose-ul:my-1.5">
-                <ReactMarkdown>{msg.content}</ReactMarkdown>
-              </div>
-            ) : (
-              <p className="whitespace-pre-wrap">{msg.content}</p>
-            )}
-            {msg.citations && msg.citations.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-2 border-t border-stone-300/50 dark:border-stone-700/50 pt-2">
-                {msg.citations.map((c, j) => (
-                  <a
-                    key={j}
-                    href={c.source_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full bg-white/70 dark:bg-stone-800 px-2 py-1 text-xs font-medium text-stone-700 dark:text-stone-300 hover:underline"
-                  >
-                    [{j + 1}] {c.title}
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
+        {messages.map((msg, i) => {
+          const isLast = i === messages.length - 1;
+          const isStreaming = loading && isLast && msg.role === "assistant";
+          const isPending = isStreaming && msg.content === "";
 
-        {loading && (
-          <div className="mr-auto max-w-[85%] rounded-2xl rounded-tl-sm bg-stone-100 dark:bg-stone-900 px-4 py-3 text-sm text-stone-500">
-            Thinking…
-          </div>
-        )}
+          return (
+            <div
+              key={i}
+              className={
+                msg.role === "user"
+                  ? "ml-auto max-w-[85%] rounded-2xl rounded-tr-sm bg-stone-900 px-4 py-3 text-sm text-white dark:bg-stone-100 dark:text-stone-900"
+                  : `mr-auto max-w-[85%] rounded-2xl rounded-tl-sm px-4 py-3 text-sm ${
+                      msg.error
+                        ? "bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300"
+                        : "bg-stone-100 text-stone-900 dark:bg-stone-900 dark:text-stone-100"
+                    }`
+              }
+            >
+              {msg.role === "assistant" ? (
+                isPending ? (
+                  <p className="text-stone-500">Thinking…</p>
+                ) : (
+                  <div className="prose prose-sm prose-stone dark:prose-invert max-w-none prose-p:my-1.5 prose-ul:my-1.5">
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    {isStreaming && (
+                      <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse bg-stone-500 align-text-bottom" />
+                    )}
+                  </div>
+                )
+              ) : (
+                <p className="whitespace-pre-wrap">{msg.content}</p>
+              )}
+              {msg.citations && msg.citations.length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-2 border-t border-stone-300/50 dark:border-stone-700/50 pt-2">
+                  {msg.citations.map((c, j) => (
+                    <a
+                      key={j}
+                      href={c.source_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full bg-white/70 dark:bg-stone-800 px-2 py-1 text-xs font-medium text-stone-700 dark:text-stone-300 hover:underline"
+                    >
+                      [{j + 1}] {c.title}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+        <div ref={scrollRef} />
       </div>
 
       <form onSubmit={handleSubmit} className="mt-4 flex gap-2">

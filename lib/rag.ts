@@ -1,6 +1,6 @@
 import { getSupabaseClient } from "./supabase";
-import { embedText, generateAnswer } from "./gemini";
-import type { ChatResponse, DocumentCategory, MatchedDocument } from "@/types/rag";
+import { embedText, streamAnswer as streamGeminiAnswer } from "./gemini";
+import type { ChatStreamEvent, DocumentCategory, MatchedDocument } from "@/types/rag";
 
 const MATCH_COUNT = 5;
 
@@ -48,27 +48,30 @@ Question: ${query}
 Answer:`;
 }
 
-export async function answerQuestion(
+export async function* streamAnswer(
   query: string,
   category?: DocumentCategory
-): Promise<ChatResponse> {
+): AsyncGenerator<ChatStreamEvent> {
   const documents = await retrieveDocuments(query, category);
 
   if (documents.length === 0) {
-    return {
-      answer:
+    yield { type: "citations", citations: [] };
+    yield {
+      type: "text",
+      delta:
         "I don't have any indexed sources to answer that yet. Try asking about visa routes (Skilled Worker, Global Talent, Student, Youth Mobility, Health and Care Worker) or cost of living (rent, council tax, utilities).",
-      citations: [],
     };
+    return;
   }
-
-  const prompt = buildPrompt(query, documents);
-  const answer = await generateAnswer(prompt);
 
   const citations = documents.map((doc) => ({
     title: doc.title,
     source_url: doc.source_url,
   }));
+  yield { type: "citations", citations };
 
-  return { answer, citations };
+  const prompt = buildPrompt(query, documents);
+  for await (const delta of streamGeminiAnswer(prompt)) {
+    yield { type: "text", delta };
+  }
 }

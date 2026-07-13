@@ -167,6 +167,16 @@ similar), not more polyfilling. Flagged to the user already; hasn't been
 acted on. Ask before doing it — it's an environment change outside this
 project's own files.
 
+**Another symptom, same root cause**: `npm start` (production server) fails
+locally with `MODULE_NOT_FOUND` on `.next/server/pages/_document.js` —
+reproducible even against a fresh `.next` build. `npm run build` itself
+succeeds fine; it's specifically the local production *server* that breaks
+on this Node version. Doesn't affect the real deployment — Vercel builds
+and serves on Node 24.x (see `vercel project inspect landuk`), so this is a
+local-only annoyance. To test a production build locally, either upgrade
+Node first, or just trust `npm run dev` + a successful `npm run build` as
+sufficient local verification and let Vercel confirm the rest.
+
 ## Conventions / style established so far
 
 - Tailwind only, no component library. Indigo as the accent colour, slate

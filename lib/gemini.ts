@@ -43,16 +43,14 @@ export async function embedTexts(texts: string[]): Promise<number[][]> {
   return embeddings;
 }
 
-export async function generateAnswer(prompt: string): Promise<string> {
+export async function* streamAnswer(prompt: string): AsyncGenerator<string> {
   const client = getClient();
-  const result = await client.models.generateContent({
+  const stream = await client.models.generateContentStream({
     model: GENERATION_MODEL,
     contents: prompt,
   });
 
-  const text = result.text;
-  if (!text) {
-    throw new Error("Gemini returned an empty response.");
+  for await (const chunk of stream) {
+    if (chunk.text) yield chunk.text;
   }
-  return text;
 }

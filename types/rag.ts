@@ -15,7 +15,8 @@ export interface Citation {
   source_url: string;
 }
 
-export interface ChatResponse {
-  answer: string;
-  citations: Citation[];
-}
+// One JSON object per line (NDJSON) streamed from POST /api/chat.
+export type ChatStreamEvent =
+  | { type: "citations"; citations: Citation[] }
+  | { type: "text"; delta: string }
+  | { type: "error"; message: string };
