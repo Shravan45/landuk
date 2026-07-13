@@ -1,0 +1,222 @@
+[
+  {
+    "id": "shoreditch",
+    "name": "Shoreditch",
+    "city": "London",
+    "region": "Inner London",
+    "avgRent1Bed": 2100,
+    "costIndex": 100,
+    "commuteToCentreMins": 15,
+    "tags": ["nightlife", "creative", "tech-hub", "young-professionals", "diverse"],
+    "description": "Buzzing East London hub of startups, galleries, and bars. Fast-paced, expensive, and very well connected."
+  },
+  {
+    "id": "wimbledon",
+    "name": "Wimbledon",
+    "city": "London",
+    "region": "South West London",
+    "avgRent1Bed": 1650,
+    "costIndex": 85,
+    "commuteToCentreMins": 25,
+    "tags": ["family-friendly", "green-space", "quiet", "commuter-friendly"],
+    "description": "Leafy suburb with a village feel, good schools, and easy rail links into central London."
+  },
+  {
+    "id": "canary-wharf",
+    "name": "Canary Wharf",
+    "city": "London",
+    "region": "East London",
+    "avgRent1Bed": 2000,
+    "costIndex": 95,
+    "commuteToCentreMins": 20,
+    "tags": ["tech-hub", "young-professionals", "modern", "riverside"],
+    "description": "Glass-tower financial and tech district with modern flats, riverside walks, and a growing residential scene."
+  },
+  {
+    "id": "clapham",
+    "name": "Clapham",
+    "city": "London",
+    "region": "South London",
+    "avgRent1Bed": 1750,
+    "costIndex": 88,
+    "commuteToCentreMins": 15,
+    "tags": ["nightlife", "young-professionals", "green-space", "diverse"],
+    "description": "Popular with young professionals for its common, bars, and quick tube access to the centre."
+  },
+  {
+    "id": "chiswick",
+    "name": "Chiswick",
+    "city": "London",
+    "region": "West London",
+    "avgRent1Bed": 1900,
+    "costIndex": 92,
+    "commuteToCentreMins": 25,
+    "tags": ["family-friendly", "quiet", "green-space", "affluent"],
+    "description": "Riverside, village-like West London suburb favoured by families, with strong schools and a low-key pace."
+  },
+  {
+    "id": "walthamstow",
+    "name": "Walthamstow",
+    "city": "London",
+    "region": "North East London",
+    "avgRent1Bed": 1350,
+    "costIndex": 68,
+    "commuteToCentreMins": 25,
+    "tags": ["affordable", "family-friendly", "diverse", "creative", "green-space"],
+    "description": "Up-and-coming area with a large market, reservoirs and parks, and some of the better value rents inside the North East London zones."
+  },
+  {
+    "id": "brixton",
+    "name": "Brixton",
+    "city": "London",
+    "region": "South London",
+    "avgRent1Bed": 1550,
+    "costIndex": 78,
+    "commuteToCentreMins": 20,
+    "tags": ["nightlife", "diverse", "creative", "affordable"],
+    "description": "Vibrant, multicultural area known for its market, music scene, and relatively good value for zone 2."
+  },
+  {
+    "id": "manchester-northern-quarter",
+    "name": "Northern Quarter",
+    "city": "Manchester",
+    "region": "Greater Manchester",
+    "avgRent1Bed": 950,
+    "costIndex": 55,
+    "commuteToCentreMins": 10,
+    "tags": ["nightlife", "creative", "tech-hub", "young-professionals"],
+    "description": "Manchester's creative and indie scene — record shops, bars, and a growing tech and media crowd."
+  },
+  {
+    "id": "didsbury",
+    "name": "Didsbury",
+    "city": "Manchester",
+    "region": "Greater Manchester",
+    "avgRent1Bed": 850,
+    "costIndex": 48,
+    "commuteToCentreMins": 20,
+    "tags": ["family-friendly", "quiet", "green-space", "affluent"],
+    "description": "Popular South Manchester suburb with parks, good schools, and a village high street."
+  },
+  {
+    "id": "manchester-media-city",
+    "name": "MediaCityUK / Salford Quays",
+    "city": "Manchester",
+    "region": "Greater Manchester",
+    "avgRent1Bed": 1000,
+    "costIndex": 58,
+    "commuteToCentreMins": 15,
+    "tags": ["tech-hub", "modern", "young-professionals", "riverside"],
+    "description": "Waterside media and tech campus (BBC, ITV) with modern apartments and a growing digital scene."
+  },
+  {
+    "id": "birmingham-digbeth",
+    "name": "Digbeth",
+    "city": "Birmingham",
+    "region": "West Midlands",
+    "avgRent1Bed": 800,
+    "costIndex": 45,
+    "commuteToCentreMins": 10,
+    "tags": ["creative", "nightlife", "tech-hub", "affordable"],
+    "description": "Birmingham's creative quarter — converted warehouses, street art, and a fast-growing tech and startup scene."
+  },
+  {
+    "id": "birmingham-edgbaston",
+    "name": "Edgbaston",
+    "city": "Birmingham",
+    "region": "West Midlands",
+    "avgRent1Bed": 750,
+    "costIndex": 42,
+    "commuteToCentreMins": 15,
+    "tags": ["family-friendly", "quiet", "green-space", "student-friendly"],
+    "description": "Leafy area home to the university and cricket ground, popular with families and postgraduate students."
+  },
+  {
+    "id": "edinburgh-leith",
+    "name": "Leith",
+    "city": "Edinburgh",
+    "region": "Scotland",
+    "avgRent1Bed": 1050,
+    "costIndex": 62,
+    "commuteToCentreMins": 15,
+    "tags": ["creative", "nightlife", "diverse", "riverside", "affordable"],
+    "description": "Historic port area turned foodie and creative hotspot, with waterside walks and a strong sense of community."
+  },
+  {
+    "id": "edinburgh-morningside",
+    "name": "Morningside",
+    "city": "Edinburgh",
+    "region": "Scotland",
+    "avgRent1Bed": 1000,
+    "costIndex": 60,
+    "commuteToCentreMins": 20,
+    "tags": ["family-friendly", "quiet", "affluent", "green-space"],
+    "description": "Genteel Edinburgh suburb with independent shops, good schools, and easy access to the Meadows and hills."
+  },
+  {
+    "id": "bristol-stokes-croft",
+    "name": "Stokes Croft",
+    "city": "Bristol",
+    "region": "South West England",
+    "avgRent1Bed": 900,
+    "costIndex": 52,
+    "commuteToCentreMins": 10,
+    "tags": ["creative", "nightlife", "diverse", "affordable"],
+    "description": "Bristol's street-art and independent culture heartland, known for its murals, bars, and alternative scene."
+  },
+  {
+    "id": "bristol-clifton",
+    "name": "Clifton",
+    "city": "Bristol",
+    "region": "South West England",
+    "avgRent1Bed": 1150,
+    "costIndex": 65,
+    "commuteToCentreMins": 15,
+    "tags": ["family-friendly", "affluent", "green-space", "quiet"],
+    "description": "Georgian-terrace neighbourhood near the Suspension Bridge, popular with families and professionals."
+  },
+  {
+    "id": "leeds-city-centre",
+    "name": "Leeds City Centre",
+    "city": "Leeds",
+    "region": "Yorkshire",
+    "avgRent1Bed": 850,
+    "costIndex": 48,
+    "commuteToCentreMins": 5,
+    "tags": ["nightlife", "tech-hub", "young-professionals", "modern"],
+    "description": "Compact, walkable centre with a fast-growing finance and tech sector and a lively bar and restaurant scene."
+  },
+  {
+    "id": "leeds-headingley",
+    "name": "Headingley",
+    "city": "Leeds",
+    "region": "Yorkshire",
+    "avgRent1Bed": 750,
+    "costIndex": 42,
+    "commuteToCentreMins": 20,
+    "tags": ["student-friendly", "nightlife", "affordable", "green-space"],
+    "description": "Popular with students and young renters, with parks, cricket, and a busy independent food scene."
+  },
+  {
+    "id": "glasgow-west-end",
+    "name": "West End",
+    "city": "Glasgow",
+    "region": "Scotland",
+    "avgRent1Bed": 900,
+    "costIndex": 50,
+    "commuteToCentreMins": 15,
+    "tags": ["creative", "student-friendly", "diverse", "green-space", "affordable"],
+    "description": "Bohemian university district with parks, independent cafes, and some of Glasgow's best-value period flats."
+  },
+  {
+    "id": "reading-town-centre",
+    "name": "Reading Town Centre",
+    "city": "Reading",
+    "region": "South East England",
+    "avgRent1Bed": 1250,
+    "costIndex": 72,
+    "commuteToCentreMins": 30,
+    "tags": ["tech-hub", "commuter-friendly", "family-friendly"],
+    "description": "Thames Valley tech hub with a fast direct rail line into London, popular with commuters and tech workers."
+  }
+]

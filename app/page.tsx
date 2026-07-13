@@ -1,101 +1,91 @@
-import Image from "next/image";
+import Link from "next/link";
+
+const FEATURES = [
+  {
+    href: "/chat",
+    title: "Ask LandUK",
+    description:
+      "Get cited answers about UK visa routes — Skilled Worker, Global Talent, Student, Youth Mobility, and Health & Care Worker — pulled from official gov.uk sources via retrieval-augmented generation.",
+    icon: "💬",
+  },
+  {
+    href: "/neighbourhoods",
+    title: "Neighbourhood matcher",
+    description:
+      "Tell us your budget, commute tolerance, and the vibe you're after — nightlife, family-friendly, tech hub — and we'll rank UK areas that fit.",
+    icon: "📍",
+  },
+  {
+    href: "/cost-of-living",
+    title: "Cost of living calculator",
+    description:
+      "Estimate a realistic monthly budget for rent, council tax, utilities, transport, and groceries in any of our covered neighbourhoods.",
+    icon: "💷",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="mx-auto max-w-6xl px-6 py-16">
+      <section className="text-center max-w-3xl mx-auto">
+        <span className="inline-block rounded-full bg-indigo-50 dark:bg-indigo-950 px-3 py-1 text-xs font-medium text-indigo-600 dark:text-indigo-400">
+          AI Relocation Copilot
+        </span>
+        <h1 className="mt-4 text-4xl sm:text-5xl font-bold tracking-tight text-balance">
+          Moving to the UK, made less overwhelming
+        </h1>
+        <p className="mt-4 text-lg text-slate-600 dark:text-slate-300 text-balance">
+          LandUK combines a retrieval-augmented assistant over official UK
+          government sources with a neighbourhood matcher and cost-of-living
+          calculator — so you can plan your move with real numbers, not
+          guesswork.
+        </p>
+        <div className="mt-8 flex justify-center gap-4">
+          <Link
+            href="/chat"
+            className="rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-500 transition-colors"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Start asking questions
+          </Link>
+          <Link
+            href="/neighbourhoods"
+            className="rounded-lg border border-slate-300 dark:border-slate-700 px-5 py-3 text-sm font-semibold hover:border-indigo-400 transition-colors"
           >
-            Read our docs
-          </a>
+            Find your neighbourhood
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      <section className="mt-20 grid gap-6 sm:grid-cols-3">
+        {FEATURES.map((feature) => (
+          <Link
+            key={feature.href}
+            href={feature.href}
+            className="group rounded-2xl border border-slate-200 dark:border-slate-800 p-6 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-lg transition-all"
+          >
+            <div className="text-3xl">{feature.icon}</div>
+            <h2 className="mt-4 font-semibold text-lg group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+              {feature.title}
+            </h2>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+              {feature.description}
+            </p>
+          </Link>
+        ))}
+      </section>
+
+      <section className="mt-20 rounded-2xl bg-slate-50 dark:bg-slate-900 p-8 text-sm text-slate-600 dark:text-slate-400">
+        <h3 className="font-semibold text-slate-900 dark:text-slate-100">
+          How it works
+        </h3>
+        <p className="mt-2">
+          Curated UK government content — visa routes and cost-of-living
+          reference data — is chunked, embedded, and stored in Postgres with
+          pgvector. When you ask a question, LandUK retrieves the most
+          relevant chunks and asks Gemini to answer using only that context,
+          citing every source it used.
+        </p>
+      </section>
     </div>
   );
 }
