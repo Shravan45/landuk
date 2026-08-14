@@ -4,24 +4,35 @@ import type { ChatStreamEvent, DocumentCategory, MatchedDocument } from "@/types
 
 const MATCH_COUNT = 5;
 
+export class RetrievalError extends Error {
+  constructor(cause: unknown) {
+    super("Failed to retrieve source documents.", { cause });
+    this.name = "RetrievalError";
+  }
+}
+
 async function retrieveDocuments(
   query: string,
   category?: DocumentCategory
 ): Promise<MatchedDocument[]> {
-  const embedding = await embedText(query);
-  const supabase = getSupabaseClient();
+  try {
+    const embedding = await embedText(query);
+    const supabase = getSupabaseClient();
 
-  const { data, error } = await supabase.rpc("match_documents", {
-    query_embedding: embedding,
-    match_count: MATCH_COUNT,
-    filter_category: category ?? null,
-  });
+    const { data, error } = await supabase.rpc("match_documents", {
+      query_embedding: embedding,
+      match_count: MATCH_COUNT,
+      filter_category: category ?? null,
+    });
 
-  if (error) {
-    throw new Error(`Vector search failed: ${error.message}`);
+    if (error) {
+      throw new Error(`Vector search failed: ${error.message}`);
+    }
+
+    return (data ?? []) as MatchedDocument[];
+  } catch (err) {
+    throw new RetrievalError(err);
   }
-
-  return (data ?? []) as MatchedDocument[];
 }
 
 function buildPrompt(query: string, documents: MatchedDocument[]): string {
